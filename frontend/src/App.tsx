@@ -1,7 +1,10 @@
+import {RouterProvider} from 'react-router-dom';
+import {router} from './presentation/router/router.tsx'
+
 export const App = () => {
     return (
-        <div>
-            <h1 className={'text-xl font-bold fade-in'}>React Open AI</h1>
-        </div>
+        <>
+            <RouterProvider router={router}/>
+        </>
     )
 }
