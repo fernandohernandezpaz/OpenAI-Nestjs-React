@@ -1,14 +1,15 @@
 import {ErrorsEnum} from '../../common/enums/ErrorsMessage.enum';
 
 
-export async function* prosConsStreamGeneratorUseCase(prompt: string): AsyncGenerator<string | null> {
+export async function* prosConsStreamGeneratorUseCase(prompt: string, abortSignal: AbortSignal): AsyncGenerator<string | null> {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/openai/pros-cons-argumentative-stream/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({prompt})
+            body: JSON.stringify({prompt}),
+            signal: abortSignal
         });
         if (!response.ok) {
             console.log(ErrorsEnum.SOMETHING_WENT_WRONG);
@@ -20,9 +21,9 @@ export async function* prosConsStreamGeneratorUseCase(prompt: string): AsyncGene
             return null;
         }
         const textDecoder = new TextDecoder();
-        let textResponse : string= ''
+        let textResponse: string = ''
         while (true) {
-            const { value, done} = await reader.read();
+            const {value, done} = await reader.read();
             if (done) {
                 break;
             }

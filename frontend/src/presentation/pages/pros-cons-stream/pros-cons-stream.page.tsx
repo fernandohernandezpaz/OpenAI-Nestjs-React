@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {GptMessage} from '../../components/chat-bubbles/gpt-message.tsx';
 import {MyMessage} from '../../components/chat-bubbles/my-message.tsx';
 import {TypingLoader} from '../../components/loader/typing-loader.tsx';
@@ -14,15 +14,21 @@ interface Message {
 
 export const ProsConsStreamPage = () => {
 
+    const abortController = useRef<AbortController>(new AbortController());
+    const isRunning = useRef<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState<Message[]>([])
 
     const handlePost = async (text: string) => {
+        if (isRunning.current) {
+            abortController.current?.abort();
+            abortController.current = new AbortController();
+        }
 
         setIsLoading(true);
         setMessages((prev) => [...prev, {text: text, isGpt: false, info: ''}]);
 
-        const stream = prosConsStreamGeneratorUseCase(text);
+        const stream = prosConsStreamGeneratorUseCase(text, abortController.current.signal);
         setIsLoading(false);
         setMessages((messages) => [...messages, {text: '', isGpt: true}]);
 
@@ -33,6 +39,7 @@ export const ProsConsStreamPage = () => {
                 return newMessages;
             });
         }
+        isRunning.current = false;
         // const textDecoder = new TextDecoder();
         // let textResponse : string= ''
         // setMessages((messages) => [...messages, { text:textResponse, isGpt:true}]);
