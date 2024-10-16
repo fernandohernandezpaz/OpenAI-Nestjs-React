@@ -1,14 +1,18 @@
 import {useState} from 'react';
 import {GtpMessage} from '../../components/chat-bubbles/gtp-message.tsx';
+import {GtpOrthographyMessage} from '../../components/chat-bubbles/gtp-orthography-message.tsx';
 import {MyMessage} from '../../components/chat-bubbles/my-message.tsx';
 import {TypingLoader} from '../../components/loader/typing-loader.tsx';
 import { ChatInputBox} from '../../components/chat-input-boxes/chat-input-box.tsx';
+import {orthographyUseCase } from '../../../core/use-cases/orthography.use-case';
+import {OrthographyUseCaseResponseInterface } from '../../../interfaces/orthography-use-case-response.interface'
 // import {ChatInputFileBox} from '../../components/chat-input-boxes/chat-input-file-box.tsx';
 // import {ChatSelectBox} from '../../components/chat-input-boxes/chat-select-box.tsx';
 
 interface Message {
     text: string;
     isGpt: boolean;
+    info?: OrthographyUseCaseResponseInterface;
 }
 
 export const OrthographyPage = () => {
@@ -20,11 +24,21 @@ export const OrthographyPage = () => {
         setIsLoading(true);
         setMessages(prev => [...prev, {text: text, isGpt: false}]);
 
-        // TODO: use case
+        const {errors, message, ok, userScore} = await orthographyUseCase(text);
         setIsLoading(false);
-
-        //Todo add isGTP true
-
+        if (!ok) {
+            setMessages(prev => [...prev, {text:message, isGpt: true}]);
+            return;
+        }
+        setMessages(prev => [...prev, {
+            text:message,
+            isGpt: true,
+            info: {
+                errors,
+                message,
+                userScore,
+            }
+        }]);
     }
 
     return (
@@ -35,15 +49,16 @@ export const OrthographyPage = () => {
                     <div className={'chat-messages'}>
                         <div className={'grid grid-cols-12 gap-y-2'}>
                             <GtpMessage
-                                username={'AI'}
                                 text={'Welcome, How can I help you?'}/>
                             {
-                                messages.map(({text, isGpt}, index) => (
+                                messages.map(({text, isGpt, info}, index) => (
                                     isGpt
-                                        ? <GtpMessage
+                                        ? <GtpOrthographyMessage
                                             key={index}
-                                            username={'AI'}
-                                            text={text}/>
+                                            message={info!.message}
+                                            userScore={info!.userScore}
+                                            errors={info?.errors ?? []}
+                                        />
                                         : <MyMessage
                                             key={index}
                                             username={'Fer'} text={text}/>
