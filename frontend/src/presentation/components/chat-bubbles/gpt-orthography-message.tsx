@@ -3,7 +3,7 @@ import {OrthographyUseCaseResponseInterface} from '../../../interfaces/orthograp
 interface GtpMessageProps extends OrthographyUseCaseResponseInterface {
 }
 
-export const GtpOrthographyMessage = ({errors, message, userScore,}: GtpMessageProps) => {
+export const GptOrthographyMessage = ({errors, message, userScore,}: GtpMessageProps) => {
     return (
         <div className={'col-start-1 col-end-8 p-3 rounded-lg'}>
             <div className={'flex flex-row items-start'}>
