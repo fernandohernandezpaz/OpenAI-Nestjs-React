@@ -1,17 +1,10 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
+import { OpenaiOrthographyResponseDto} from '../dtos';
+import {Options  } from '../interfaces/option-open-ai.interface';
 
-interface Options {
-    prompt: string;
-    maxTokens?: number;
-}
 
-export interface OpenAIResponse {
-    userScore: number;
-    errors: string[];
-    message: string;
-}
 
-export const orthographyUseCase = async (openAI: OpenAI, {prompt, maxTokens}: Options): Promise<OpenAIResponse> => {
+export const orthographyUseCase = async (openAI: OpenAI, {prompt}: Options): Promise<OpenaiOrthographyResponseDto> => {
     const completion = await openAI.chat.completions.create({
         messages: [
             {
@@ -38,10 +31,10 @@ export const orthographyUseCase = async (openAI: OpenAI, {prompt, maxTokens}: Op
         ],
         model: 'gpt-4',
         temperature: 0.2,
-        max_tokens: maxTokens,
+        max_tokens: 150,
     });
     if (!completion.choices.length) {
-        return {} as OpenAIResponse;
+        return {} as OpenaiOrthographyResponseDto;
     }
-    return JSON.parse(completion.choices[0].message.content) as OpenAIResponse;
+    return JSON.parse(completion.choices[0].message.content) as OpenaiOrthographyResponseDto;
 };
