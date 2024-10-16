@@ -21,8 +21,8 @@ export const prosConsArgumentativeStreamUseCase = async (openAI: OpenAI, {prompt
             }
         ],
         model: 'gpt-4',
-        temperature: 0.8,
-        max_tokens: 500
+        temperature: 0.4,
+        max_tokens: 1200
     });
 
 };

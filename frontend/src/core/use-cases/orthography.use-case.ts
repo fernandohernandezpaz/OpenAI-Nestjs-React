@@ -1,4 +1,5 @@
 import {OrthographyUseCaseResponseInterface} from '../../interfaces/orthography-use-case-response.interface.ts';
+import { ErrorsEnum } from '../../common/enums/ErrorsMessage.enum'
 
 interface OrthographyUseCaseI extends OrthographyUseCaseResponseInterface {
     ok: boolean;
@@ -14,7 +15,7 @@ export const orthographyUseCase = async (prompt: string): Promise<OrthographyUse
             body: JSON.stringify({prompt})
         });
         if (!response.ok) {
-            throw new Error('The correction could not be done')
+            throw new Error(ErrorsEnum.CORRECTION_COULD_NOT_BE_DONE)
         }
 
         const data = await response.json() as OrthographyUseCaseResponseInterface;
@@ -27,7 +28,7 @@ export const orthographyUseCase = async (prompt: string): Promise<OrthographyUse
             ok: false,
             userScore: 0,
             errors: [],
-            message: 'The correction could not be done'
+            message: ErrorsEnum.CORRECTION_COULD_NOT_BE_DONE
         } as OrthographyUseCaseI;
     }
 }
