@@ -3,7 +3,7 @@ import {GptMessage} from '../../components/chat-bubbles/gpt-message.tsx';
 import {MyMessage} from '../../components/chat-bubbles/my-message.tsx';
 import {TypingLoader} from '../../components/loader/typing-loader.tsx';
 import {ChatInputBox} from '../../components/chat-input-boxes/chat-input-box.tsx';
- import { prosConsArgumentativeUseCase} from '../../../core/use-cases'
+ import { prosConsUseCase} from '../../../core/use-cases'
 
 interface Message {
     text: string;
@@ -22,7 +22,7 @@ export const ProsConsPage = () => {
         setIsLoading(true);
         setMessages((prev) => [...prev, {text: text, isGpt: false, info:''}]);
 
-        const {content, ok} = await prosConsArgumentativeUseCase(text);
+        const {content, ok} = await prosConsUseCase(text);
         setIsLoading(false);
         if (!ok) {
             setMessages(prev => [...prev, {text: content, isGpt: false}]);

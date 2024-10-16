@@ -1,13 +1,13 @@
 import {
-    ProsConsArgumentativeUseCaseResponseInterface
-} from '../../interfaces/pros-cons-argumentative-use-case-response.interface';
+    ProsConsUseCaseResponseInterface
+} from '../../interfaces/pros-cons-use-case-response.interface';
 import {ErrorsEnum} from '../../common/enums/ErrorsMessage.enum';
 
-interface ProsConsArgumentativeUseCaseI extends ProsConsArgumentativeUseCaseResponseInterface {
+interface ProsConsUseCaseI extends ProsConsUseCaseResponseInterface {
     ok: boolean;
 }
 
-export const prosConsArgumentativeUseCase = async (prompt: string): Promise<ProsConsArgumentativeUseCaseI> => {
+export const prosConsUseCase = async (prompt: string): Promise<ProsConsUseCaseI> => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/openai/pros-cons-argumentative/`, {
             method: 'POST',
@@ -20,17 +20,17 @@ export const prosConsArgumentativeUseCase = async (prompt: string): Promise<Pros
             throw new Error(ErrorsEnum.SOMETHING_WENT_WRONG)
         }
 
-        const data = await response.json() as ProsConsArgumentativeUseCaseResponseInterface;
+        const data = await response.json() as ProsConsUseCaseResponseInterface;
         return {
             ok: true,
             ...data
-        } as ProsConsArgumentativeUseCaseI;
+        } as ProsConsUseCaseI;
     } catch (error) {
         return {
             ok: false,
             content: ErrorsEnum.SOMETHING_WENT_WRONG,
             refusal: null,
             role: null
-        } as unknown as ProsConsArgumentativeUseCaseI;
+        } as unknown as ProsConsUseCaseI;
     }
 }
