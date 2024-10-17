@@ -17,7 +17,7 @@ export const ProsConsStreamPage = () => {
     const abortController = useRef<AbortController>(new AbortController());
     const isRunning = useRef<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([])
+    const [messages, setMessages] = useState<Message[]>([]);
 
     const handlePost = async (text: string) => {
         if (isRunning.current) {
@@ -35,7 +35,7 @@ export const ProsConsStreamPage = () => {
         for await (const message of stream) {
             setMessages(messages => {
                 const newMessages = [...messages];
-                newMessages[newMessages.length - 1].text = message;
+                newMessages[newMessages.length - 1].text = message ?? '';
                 return newMessages;
             });
         }

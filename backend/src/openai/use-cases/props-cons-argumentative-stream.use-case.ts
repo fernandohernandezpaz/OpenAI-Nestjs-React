@@ -1,5 +1,4 @@
 import OpenAI from 'openai';
-import {OpenaiProsConsResponseDto} from '../dtos'
 import {Options} from '../interfaces/option-open-ai.interface';
 
 

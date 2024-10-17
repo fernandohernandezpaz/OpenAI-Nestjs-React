@@ -1,7 +1,12 @@
 import { Response } from 'express';
 import {Body, Controller, HttpStatus, Post, Res} from '@nestjs/common';
 import { OpenaiService } from './openai.service';
-import { OrthographyRequestDto, ProsConsArgumentativeRequestDto, OpenaiOrthographyResponseDto } from './dtos';
+import {
+  OrthographyRequestDto,
+  ProsConsArgumentativeRequestDto,
+  TranslateRequestDto,
+  OpenaiOrthographyResponseDto
+} from './dtos';
 
 @Controller('openai')
 export class OpenaiController {
@@ -30,5 +35,13 @@ export class OpenaiController {
       res.write(piece);
     }
     res.end();
+  }
+
+
+  @Post('translate')
+  translate(
+      @Body() translateBody: TranslateRequestDto,
+  ) {
+    return this.openaiService.translate(translateBody);
   }
 }
