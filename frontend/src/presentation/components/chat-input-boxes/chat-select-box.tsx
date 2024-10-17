@@ -1,12 +1,12 @@
 import {FormEvent, useState} from 'react';
 
-interface Option {
+export interface Option {
     id: string;
     text: string;
 }
 
 interface ChatSelectBoxProps {
-    onSendMessage: (message: string) => void;
+    onSendMessage: (message: string, selectedOption: string) => void;
     placeholder?: string;
     disabledCorrections?: boolean;
     options: Option[];
@@ -22,11 +22,10 @@ export const ChatSelectBox = ({
     const [selectedOption, setSelectedOption] = useState<string>('');
     const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!message.trim().length) {
-            return;
-        }
+        if (!message.trim().length) return;
+        if (!selectedOption.trim().length) return;
 
-        onSendMessage(message);
+        onSendMessage(message, selectedOption);
         setMessage('');
     };
     return (
