@@ -1,4 +1,4 @@
 export interface OpenaiTranslateResponseDto {
-    originalText: string;
-    translateText: string;
+	originalText: string;
+	translateText: string;
 }

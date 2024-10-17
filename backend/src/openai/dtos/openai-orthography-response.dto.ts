@@ -1,5 +1,5 @@
 export interface OpenaiOrthographyResponseDto {
-    userScore: number;
-    errors: string[];
-    message: string;
+	userScore: number;
+	errors: string[];
+	message: string;
 }
