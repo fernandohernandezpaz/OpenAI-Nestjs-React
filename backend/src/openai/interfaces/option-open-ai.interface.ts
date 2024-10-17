@@ -1,3 +1,3 @@
 export interface Options {
-    prompt: string;
+	prompt: string;
 }
