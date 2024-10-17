@@ -3,8 +3,13 @@ import * as process from 'node:process';
 import OpenAI from 'openai';
 
 import { Injectable } from '@nestjs/common';
-import { orthographyUseCase, prosConsArgumentativeUseCase,prosConsArgumentativeStreamUseCase } from './use-cases';
-import { OrthographyRequestDto, ProsConsArgumentativeRequestDto } from './dtos';
+import {
+  orthographyUseCase,
+  prosConsArgumentativeUseCase,
+  prosConsArgumentativeStreamUseCase,
+  translateUseCase
+} from './use-cases';
+import {OrthographyRequestDto, ProsConsArgumentativeRequestDto, TranslateRequestDto} from './dtos';
 
 @Injectable()
 export class OpenaiService {
@@ -23,8 +28,16 @@ export class OpenaiService {
     return await prosConsArgumentativeUseCase(this.openAI, { prompt});
   }
 
-  async prosConsConsArgumentativeStream(prosConsArgumentativeBody: ProsConsArgumentativeRequestDto) {
+  prosConsConsArgumentativeStream(prosConsArgumentativeBody: ProsConsArgumentativeRequestDto) {
     const { prompt } = prosConsArgumentativeBody;
-    return await prosConsArgumentativeStreamUseCase(this.openAI, { prompt});
+    return prosConsArgumentativeStreamUseCase(this.openAI, { prompt});
+  }
+
+  async translate(translateBody: TranslateRequestDto) {
+
+    const { prompt, lang } = translateBody;
+
+    return await translateUseCase(this.openAI, { prompt, lang});
+
   }
 }
