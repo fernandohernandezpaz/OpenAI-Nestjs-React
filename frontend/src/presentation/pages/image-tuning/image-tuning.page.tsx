@@ -1,5 +1,3 @@
 export const ImageTuningPage = () => {
-    return (
-        <div>Image Tuning Page</div>
-    )
-}
+	return <div>Image Tuning Page</div>;
+};

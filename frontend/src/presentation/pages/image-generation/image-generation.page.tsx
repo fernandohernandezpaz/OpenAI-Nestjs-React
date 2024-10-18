@@ -1,5 +1,3 @@
 export const ImageGenerationPage = () => {
-    return (
-        <div>Image Generation Page</div>
-    )
-}
+	return <div>Image Generation Page</div>;
+};
