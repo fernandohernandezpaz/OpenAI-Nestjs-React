@@ -1,5 +1,5 @@
 export interface OrthographyUseCaseResponseInterface {
-    userScore: number;
-    errors: string[];
-    message: string;
+	userScore: number;
+	errors: string[];
+	message: string;
 }

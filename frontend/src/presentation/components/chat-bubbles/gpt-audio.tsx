@@ -3,9 +3,10 @@ import Markdown from 'react-markdown';
 interface GtpMessageProps {
 	username?: string;
 	text: string;
+	audioUrl: string;
 }
 
-export const GptMessage = ({ username, text }: GtpMessageProps) => {
+export const GptAudioMessage = ({ username, text, audioUrl }: GtpMessageProps) => {
 	return (
 		<div className={'col-start-1 col-end-8 p-3 rounded-lg'}>
 			<div className={'flex flex-row items-start'}>
@@ -22,6 +23,7 @@ export const GptMessage = ({ username, text }: GtpMessageProps) => {
 					}
 				>
 					<Markdown>{text}</Markdown>
+					<audio src={audioUrl} controls className={'w-full'}></audio>
 				</div>
 			</div>
 		</div>
