@@ -4,15 +4,17 @@ import * as fs from 'node:fs';
 
 import OpenAI from 'openai';
 
-import {Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
 	orthographyUseCase,
 	prosConsArgumentativeUseCase,
 	prosConsArgumentativeStreamUseCase,
 	translateUseCase,
 	textToAudioUseCase,
+	audioToTextUseCase,
 } from './use-cases';
 import {
+	AudioToTextRequestDto,
 	OrthographyRequestDto,
 	ProsConsArgumentativeRequestDto,
 	TextToAudioRequestDto,
@@ -49,12 +51,17 @@ export class OpenaiService {
 		return await textToAudioUseCase(this.openAI, { prompt, voice });
 	}
 
-    async getAudioFile(fileId: string) {
-        const filePath = path.resolve(__dirname, '../../', 'generated', `${fileId}.mp3`);
-        const wasFound = fs.existsSync(filePath);
-        if (!wasFound) {
-            throw new NotFoundException(`File ${fileId}.mp3 not found`);
-        }
-        return filePath;
-    }
+	async getAudioFile(fileId: string) {
+		const filePath = path.resolve(__dirname, '../../', 'generated', `${fileId}.mp3`);
+		const wasFound = fs.existsSync(filePath);
+		if (!wasFound) {
+			throw new NotFoundException(`File ${fileId}.mp3 not found`);
+		}
+		return filePath;
+	}
+
+	async audioToText(audioFile: Express.Multer.File, audioToTextBody: AudioToTextRequestDto) {
+		const { prompt } = audioToTextBody;
+		return audioToTextUseCase(this.openAI, { audioFile, prompt });
+	}
 }
