@@ -1,11 +1,14 @@
 import Markdown from 'react-markdown';
+import AudioFileIcon from '../../../assets/svg/audio-file.svg';
 
 interface GtpMessageProps {
 	username?: string;
 	text: string;
+	showIcon?: boolean;
+	iconName?: string;
 }
 
-export const MyMessage = ({ username, text }: GtpMessageProps) => {
+export const MyMessage = ({ username, text, showIcon, iconName }: GtpMessageProps) => {
 	return (
 		<div className={'col-start-6 col-end-13 p-3 rounded-lg'}>
 			<div className={'flex items-center justify-start flex-row-reverse'}>
@@ -22,6 +25,11 @@ export const MyMessage = ({ username, text }: GtpMessageProps) => {
 					}
 				>
 					<Markdown>{text}</Markdown>
+					{showIcon ? (
+						<div className={'flex items-center justify-center'}>
+							<img src={AudioFileIcon} height={32} width={32} alt={iconName} />
+						</div>
+					) : null}
 				</div>
 			</div>
 		</div>
