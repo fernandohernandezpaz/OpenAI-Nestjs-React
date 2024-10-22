@@ -22,7 +22,8 @@ import {
 	OpenaiOrthographyResponseDto,
 	TextToAudioRequestDto,
 	AudioToTextRequestDto,
-    ImageGeneratorRequestDto
+	ImageGeneratorRequestDto,
+	ImageGeneratedVariationRequestDto,
 } from './dtos';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -110,13 +111,21 @@ export class OpenaiController {
 		return await this.openaiService.audioToText(audioFile, audioToTextBody);
 	}
 
+	@Post('image-generator')
+	async imageGenerator(@Body() imageGeneratorBody: ImageGeneratorRequestDto) {
+		return await this.openaiService.imageGenerator(imageGeneratorBody);
+	}
 
-    @Post('image-generator')
-    async imageGenerator(
-        @Body() imageGeneratorBody: ImageGeneratorRequestDto,
-    ) {
+	@Get('get-image-generated/:fileName')
+	getImageGenerated(@Param('fileName') fileName: string, @Res() response: Response) {
+		const image = this.openaiService.getImageGenerated(fileName);
+		response.setHeader('Content-Type', 'image/png');
+		response.status(HttpStatus.OK);
+		response.sendFile(image);
+	}
 
-        return await this.openaiService.imageGenerator(imageGeneratorBody);
-
-    }
+	@Post('image-variation')
+	async imageVariation(@Body() imageGeneratedVariationBody: ImageGeneratedVariationRequestDto) {
+		return await this.openaiService.imageVariation(imageGeneratedVariationBody);
+	}
 }
