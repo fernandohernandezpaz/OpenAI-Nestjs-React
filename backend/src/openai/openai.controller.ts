@@ -119,4 +119,13 @@ export class OpenaiController {
         return await this.openaiService.imageGenerator(imageGeneratorBody);
 
     }
+
+
+    @Get('get-image-generated/:fileId')
+    getImageGenerated(@Param('fileId') fileId: string, @Res() response: Response) {
+        const image = this.openaiService.getImageGenerated(fileId);
+        response.setHeader('Content-Type', 'image/png');
+        response.status(HttpStatus.OK);
+        response.sendFile(image);
+    }
 }
