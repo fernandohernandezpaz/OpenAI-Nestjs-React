@@ -22,6 +22,7 @@ import {
 	OpenaiOrthographyResponseDto,
 	TextToAudioRequestDto,
 	AudioToTextRequestDto,
+    ImageGeneratorRequestDto
 } from './dtos';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -108,4 +109,14 @@ export class OpenaiController {
 	) {
 		return await this.openaiService.audioToText(audioFile, audioToTextBody);
 	}
+
+
+    @Post('image-generator')
+    async imageGenerator(
+        @Body() imageGeneratorBody: ImageGeneratorRequestDto,
+    ) {
+
+        return await this.openaiService.imageGenerator(imageGeneratorBody);
+
+    }
 }
