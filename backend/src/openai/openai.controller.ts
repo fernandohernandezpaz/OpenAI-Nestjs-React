@@ -121,9 +121,9 @@ export class OpenaiController {
     }
 
 
-    @Get('get-image-generated/:fileId')
-    getImageGenerated(@Param('fileId') fileId: string, @Res() response: Response) {
-        const image = this.openaiService.getImageGenerated(fileId);
+    @Get('get-image-generated/:fileName')
+    getImageGenerated(@Param('fileName') fileName: string, @Res() response: Response) {
+        const image = this.openaiService.getImageGenerated(fileName);
         response.setHeader('Content-Type', 'image/png');
         response.status(HttpStatus.OK);
         response.sendFile(image);

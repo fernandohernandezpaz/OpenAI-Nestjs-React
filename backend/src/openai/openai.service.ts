@@ -70,11 +70,11 @@ export class OpenaiService {
         return await imageGeneratorUseCase(this.openAI, imageGeneratorBody);
     }
 
-    getImageGenerated(fileId: string) {
-        const filePath = path.resolve(__dirname, '../../', 'generated/images', `${fileId}.png`);
+    getImageGenerated(fileName: string) {
+        const filePath = path.resolve(__dirname, '../../', 'generated/images', `${fileName}`);
         const wasFound = fs.existsSync(filePath);
         if (!wasFound) {
-            throw new NotFoundException(`File ${fileId}.png not found`);
+            throw new NotFoundException(`File ${fileName} not found`);
         }
         return filePath;
     }
