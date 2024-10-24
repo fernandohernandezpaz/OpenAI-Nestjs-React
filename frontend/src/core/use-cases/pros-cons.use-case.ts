@@ -1,4 +1,4 @@
-import { ProsConsUseCaseResponseInterface } from '../../interfaces/pros-cons-use-case-response.interface';
+import { ProsConsUseCaseResponseInterface } from '../../interfaces';
 import { ErrorsEnum } from '../../common/enums/ErrorsMessage.enum';
 
 interface ProsConsUseCaseI extends ProsConsUseCaseResponseInterface {

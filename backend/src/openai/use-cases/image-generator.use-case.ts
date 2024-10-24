@@ -64,7 +64,8 @@ export const imageGeneratorUseCase = async (
 			revisedPrompt: revised_prompt,
 		};
 	} catch (error) {
-		return {
+        console.log(error);
+        return {
 			url: null,
 			openAIUrl: null,
 			revisedPrompt: null,
