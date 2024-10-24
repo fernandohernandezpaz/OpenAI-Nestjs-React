@@ -3,11 +3,18 @@ import Markdown from 'react-markdown';
 interface GtpMessageImageProps {
 	username?: string;
 	text: string;
-    imageUrl?: string;
-    alt?: string;
+	imageUrl?: string;
+	alt?: string;
+	onSelectedImage?: (imageUrl?: string) => void;
 }
 
-export const GptMessageImage = ({ username, text, imageUrl, alt}: GtpMessageImageProps) => {
+export const GptMessageImage = ({
+	username,
+	text,
+	imageUrl,
+	alt,
+	onSelectedImage,
+}: GtpMessageImageProps) => {
 	return (
 		<div className={'col-start-1 col-end-8 p-3 rounded-lg'}>
 			<div className={'flex flex-row items-start'}>
@@ -24,7 +31,12 @@ export const GptMessageImage = ({ username, text, imageUrl, alt}: GtpMessageImag
 					}
 				>
 					<Markdown>{text}</Markdown>
-                    <img src={imageUrl} alt={alt} className={'mt-2 rounded-xl w-96 h-96 object-cover'} />
+					<img
+						src={imageUrl}
+						alt={alt}
+						className={'mt-2 rounded-xl w-96 h-96 object-cover'}
+						onClick={() => onSelectedImage?.(imageUrl)}
+					/>
 				</div>
 			</div>
 		</div>
