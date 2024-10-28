@@ -6,7 +6,7 @@ import { Options } from '../interfaces/option-open-ai.interface';
 import { OpenaiImageHandlerResponseDto } from '../dtos';
 
 import { downloaderFile, downloadBase64ImageAsPng } from '../../common/helpers/downloader-file';
-import {generateAssetUrl} from "../../common/helpers/generate-asset-url";
+import { generateAssetUrl } from '../../common/helpers/generate-asset-url';
 
 interface ImageGeneratorOption extends Options {
 	originalImage?: string;
@@ -15,11 +15,7 @@ interface ImageGeneratorOption extends Options {
 
 export const imageGeneratorUseCase = async (
 	openAI: OpenAI,
-	{
-        prompt,
-        originalImage,
-        maskImage
-    }: ImageGeneratorOption,
+	{ prompt, originalImage, maskImage }: ImageGeneratorOption,
 ): Promise<OpenaiImageHandlerResponseDto> => {
 	try {
 		if (!originalImage || !maskImage) {
@@ -35,7 +31,7 @@ export const imageGeneratorUseCase = async (
 			const firstImage = response.data.shift();
 			const { url: openAIUrl, revised_prompt } = firstImage;
 			const fileName = await downloaderFile(openAIUrl);
-            const url = generateAssetUrl(fileName);
+			const url = generateAssetUrl(fileName);
 
 			return {
 				url,
@@ -56,9 +52,9 @@ export const imageGeneratorUseCase = async (
 			response_format: 'url',
 		});
 		const firstImage = response.data.shift();
-		const { url:openAIUrl, revised_prompt } = firstImage;
-        const fileName = await downloaderFile(openAIUrl);
-        const url = generateAssetUrl(fileName);
+		const { url: openAIUrl, revised_prompt } = firstImage;
+		const fileName = await downloaderFile(openAIUrl);
+		const url = generateAssetUrl(fileName);
 
 		return {
 			url,
@@ -66,8 +62,8 @@ export const imageGeneratorUseCase = async (
 			revisedPrompt: revised_prompt,
 		};
 	} catch (error) {
-        console.log(error);
-        return {
+		console.log(error);
+		return {
 			url: null,
 			openAIUrl: null,
 			revisedPrompt: null,
