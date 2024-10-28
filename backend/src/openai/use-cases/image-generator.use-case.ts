@@ -1,6 +1,4 @@
 import * as fs from 'fs';
-import * as path from 'path';
-import * as process from 'node:process';
 
 import OpenAI from 'openai';
 
@@ -17,7 +15,11 @@ interface ImageGeneratorOption extends Options {
 
 export const imageGeneratorUseCase = async (
 	openAI: OpenAI,
-	{ prompt, originalImage, maskImage }: ImageGeneratorOption,
+	{
+        prompt,
+        originalImage,
+        maskImage
+    }: ImageGeneratorOption,
 ): Promise<OpenaiImageHandlerResponseDto> => {
 	try {
 		if (!originalImage || !maskImage) {
@@ -42,10 +44,10 @@ export const imageGeneratorUseCase = async (
 			};
 		}
 
-		const pngImagePath = await downloaderFile(originalImage);
-		const maskPath = await downloadBase64ImageAsPng(maskImage);
+		const pngImagePath = await downloaderFile(originalImage, true);
+		const maskPath = await downloadBase64ImageAsPng(maskImage, true);
 		const response = await openAI.images.edit({
-			model: 'dall-e-3',
+			model: 'dall-e-2',
 			prompt,
 			image: fs.createReadStream(pngImagePath),
 			mask: fs.createReadStream(maskPath),
@@ -55,7 +57,7 @@ export const imageGeneratorUseCase = async (
 		});
 		const firstImage = response.data.shift();
 		const { url:openAIUrl, revised_prompt } = firstImage;
-		const fileName = path.basename(openAIUrl);
+        const fileName = await downloaderFile(openAIUrl);
         const url = generateAssetUrl(fileName);
 
 		return {
@@ -64,7 +66,8 @@ export const imageGeneratorUseCase = async (
 			revisedPrompt: revised_prompt,
 		};
 	} catch (error) {
-		return {
+        console.log(error);
+        return {
 			url: null,
 			openAIUrl: null,
 			revisedPrompt: null,

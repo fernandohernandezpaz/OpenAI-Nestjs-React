@@ -6,4 +6,5 @@ export * from './orthography/orthography.page';
 export * from './text-to-audio/text-to-audio.page';
 export * from './image-generation/image-generation.page';
 export * from './image-tuning/image-tuning.page';
+export * from './image-editor/image-editor.page';
 export * from './translate/translate.page';

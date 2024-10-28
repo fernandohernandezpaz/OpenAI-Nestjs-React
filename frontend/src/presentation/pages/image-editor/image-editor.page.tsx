@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { GptMessage } from '../../components/chat-bubbles/gpt-message.tsx';
 import { MyMessage } from '../../components/chat-bubbles/my-message.tsx';
-import { GptMessageImage } from '../../components/chat-bubbles/gpt-message-image.tsx';
 import { TypingLoader } from '../../components/loader/typing-loader.tsx';
 import { ChatInputBox } from '../../components/chat-input-boxes/chat-input-box.tsx';
+import { GptEditableImage } from '../../components/editable-image/gpt-editable-image.tsx';
 
-import { imageGenerationUseCase, imageVariationUseCase } from '../../../core/use-cases';
+import { imageGenerationUseCase } from '../../../core/use-cases';
 
 interface Message {
 	text: string;
@@ -16,45 +16,29 @@ interface Message {
 	};
 }
 
-export const ImageTuningPage = () => {
+export const ImageEditorPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
-	const [messages, setMessages] = useState<Message[]>([]);
     const [originalImageAndMask, setOriginalImageAndMask] = useState({
         original: undefined as string | undefined,
         mask: undefined as string | undefined,
     });
-
-	const handleVariation = async () => {
-		setIsLoading(true);
-
-		const {
-			ok,
-			url: imageUrl,
-			alt,
-		} = await imageVariationUseCase(originalImageAndMask.original!);
-
-		setIsLoading(false);
-
-		if (!ok) return;
-
-		setMessages((prev) => [
-			...prev,
-			{
-				text: 'Image variation: ',
-				isGpt: true,
-				info: {
-					imageUrl,
-					alt,
-				},
-			},
-		]);
-	};
+	const [messages, setMessages] = useState<Message[]>([
+        {
+            isGpt: true,
+            text: 'Image base',
+            info: {
+                alt: 'Image base',
+                imageUrl: 'http://localhost:3000/openai/get-image-generated/1729800230101.png'
+            }
+        }
+    ]);
 
 	const handlePost = async (text: string) => {
 		setIsLoading(true);
 		setMessages((prev) => [...prev, { text: text, isGpt: false }]);
+        const { original, mask} = originalImageAndMask;
 
-		const { ok, url: imageUrl, alt } = await imageGenerationUseCase(text);
+		const { ok, url: imageUrl, alt } = await imageGenerationUseCase(text, original, mask);
 		setIsLoading(false);
 		if (!ok) {
 			return setMessages((prev) => [
@@ -78,22 +62,17 @@ export const ImageTuningPage = () => {
 	return (
 		<>
             {originalImageAndMask?.original && (
-            	<div className={'fixed flex flex-col items-center top-10 right-10 z-10 fade-in'}>
-            		<span>Editing</span>
-            		<img
-            			className={'border rounded-xl w-36 h-36 object-cover'}
-            			src={originalImageAndMask.original}
-            			alt="Original Image"
-            		/>
-            		<button
-            			type={'button'}
-            			className={'btn-primary mt-2'}
-            			onClick={handleVariation}
-            		>
-            			Generate variation
-            		</button>
-            	</div>
+                <div className={'fixed flex flex-col items-center top-10 right-10 z-10 fade-in'}>
+                    <span>Editing</span>
+                    <img
+                        className={'border rounded-xl w-36 h-36 object-cover'}
+                        src={originalImageAndMask.mask ?? originalImageAndMask.original}
+                        alt="Original Image"
+                    />
+                </div>
             )}
+
+
 			<div className="chat-container">
 				<div className="chat-messages">
 					<div className="grid grid-cols-12 gap-y-2">
@@ -101,11 +80,10 @@ export const ImageTuningPage = () => {
 
 						{messages.map((message, index) =>
 							message.isGpt ? (
-								<GptMessageImage
+								<GptEditableImage
 									key={index}
 									text={message.text}
 									imageUrl={message.info?.imageUrl!}
-									alt={message.info?.imageUrl!}
 									onSelectedImage={(maskImage) =>
 										setOriginalImageAndMask({
 											original: message.info?.imageUrl!,
