@@ -9,6 +9,7 @@ import {
 	createRunUseCase,
 	createThreadUseCase,
 	checkCompleteStatusUseCase,
+    getMessageListUseCase
 } from './use-cases';
 
 @Injectable()
@@ -27,6 +28,11 @@ export class SamAssistantService {
 
 		const run = await createRunUseCase(this.openAI, { assistantId, threadId });
 		const { id: runId } = run;
-		return checkCompleteStatusUseCase(this.openAI, { runId, threadId });
+
+        await checkCompleteStatusUseCase(this.openAI, { runId, threadId });
+
+        const messages = await getMessageListUseCase(this.openAI, {threadId});
+        return messages.reverse();
+
 	}
 }

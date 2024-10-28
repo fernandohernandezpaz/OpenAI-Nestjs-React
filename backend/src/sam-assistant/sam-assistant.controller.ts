@@ -11,7 +11,7 @@ export class SamAssistantController {
 		return this.samAssistantService.createThread();
 	}
 
-	@Post('user-question')
+	@Post('create-message-thread')
 	createMessageThread(@Body() createMessageThreadBody: CreateMessageRequestDto) {
 		return this.samAssistantService.createMessageThread(createMessageThreadBody);
 	}

@@ -1,7 +1,5 @@
 import OpenAI from 'openai';
 
-import { OpenaiCreateMessageThreadResponseDto } from '../dtos';
-import { run } from 'jest';
 
 interface CheckCompleteStatusUseCaseOption {
 	threadId: string;
@@ -11,14 +9,18 @@ interface CheckCompleteStatusUseCaseOption {
 export const checkCompleteStatusUseCase = async (
 	openAI: OpenAI,
 	{ threadId, runId }: CheckCompleteStatusUseCaseOption,
-) => {
+): Promise<boolean> => {
 	const response = await openAI.beta.threads.runs.retrieve(threadId, runId);
 
 	const { status } = response;
 
 	if (status === 'completed') {
-		return response.status;
+		return true;
 	}
+
+    if (status === 'failed') {
+        return false
+    }
 
 	await new Promise((resolve) => setTimeout(resolve, 1000));
 
