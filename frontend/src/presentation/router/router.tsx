@@ -8,7 +8,7 @@ import {
 	AudioToTextPage,
 	ImageGenerationPage,
 	ImageTuningPage,
-    ImageEditorPage,
+	ImageEditorPage,
 	TranslatePage,
 } from '../pages';
 import { DashboardLayout } from '../layouts/dashboard.layout.tsx';
@@ -70,13 +70,13 @@ export const menuRoutes = [
 		description: 'Continuous generation',
 		component: <ImageTuningPage />,
 	},
-    {
-        to: '/image-editor',
-        icon: 'fa-solid fa-pen-to-square',
-        title: 'Image Editor',
-        description: 'Edit image',
-        component: <ImageEditorPage />,
-    },
+	{
+		to: '/image-editor',
+		icon: 'fa-solid fa-pen-to-square',
+		title: 'Image Editor',
+		description: 'Edit image',
+		component: <ImageEditorPage />,
+	},
 	{
 		to: '/text-to-audio',
 		icon: 'fa-solid fa-podcast',

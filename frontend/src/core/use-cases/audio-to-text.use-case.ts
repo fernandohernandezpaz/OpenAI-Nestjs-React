@@ -1,5 +1,5 @@
 import { ErrorsEnum } from '../../common/enums/ErrorsMessage.enum';
-import { AudioToTextResponseInterface } from '../../interfaces/audio-to-text-response.interface';
+import { AudioToTextResponseInterface } from '../../interfaces';
 
 export const audioToTextUseCase = async (
 	audioFile: File,
