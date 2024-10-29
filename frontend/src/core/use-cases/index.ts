@@ -7,3 +7,5 @@ export * from './text-to-audio.use-case.ts';
 export * from './audio-to-text.use-case.ts';
 export * from './image-generation.use-case.ts';
 export * from './image-variation.use-case.ts';
+export * from './create-thread.use-case.ts';
+export * from './get-message-thread.use-case.ts';

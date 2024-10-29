@@ -18,25 +18,25 @@ interface Message {
 
 export const ImageEditorPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
-    const [originalImageAndMask, setOriginalImageAndMask] = useState({
-        original: undefined as string | undefined,
-        mask: undefined as string | undefined,
-    });
+	const [originalImageAndMask, setOriginalImageAndMask] = useState({
+		original: undefined as string | undefined,
+		mask: undefined as string | undefined,
+	});
 	const [messages, setMessages] = useState<Message[]>([
-        {
-            isGpt: true,
-            text: 'Image base',
-            info: {
-                alt: 'Image base',
-                imageUrl: 'http://localhost:3000/openai/get-image-generated/1729800230101.png'
-            }
-        }
-    ]);
+		{
+			isGpt: true,
+			text: 'Image base',
+			info: {
+				alt: 'Image base',
+				imageUrl: 'http://localhost:3000/openai/get-image-generated/1729800230101.png',
+			},
+		},
+	]);
 
 	const handlePost = async (text: string) => {
 		setIsLoading(true);
 		setMessages((prev) => [...prev, { text: text, isGpt: false }]);
-        const { original, mask} = originalImageAndMask;
+		const { original, mask } = originalImageAndMask;
 
 		const { ok, url: imageUrl, alt } = await imageGenerationUseCase(text, original, mask);
 		setIsLoading(false);
@@ -61,17 +61,16 @@ export const ImageEditorPage = () => {
 
 	return (
 		<>
-            {originalImageAndMask?.original && (
-                <div className={'fixed flex flex-col items-center top-10 right-10 z-10 fade-in'}>
-                    <span>Editing</span>
-                    <img
-                        className={'border rounded-xl w-36 h-36 object-cover'}
-                        src={originalImageAndMask.mask ?? originalImageAndMask.original}
-                        alt="Original Image"
-                    />
-                </div>
-            )}
-
+			{originalImageAndMask?.original && (
+				<div className={'fixed flex flex-col items-center top-10 right-10 z-10 fade-in'}>
+					<span>Editing</span>
+					<img
+						className={'border rounded-xl w-36 h-36 object-cover'}
+						src={originalImageAndMask.mask ?? originalImageAndMask.original}
+						alt="Original Image"
+					/>
+				</div>
+			)}
 
 			<div className="chat-container">
 				<div className="chat-messages">

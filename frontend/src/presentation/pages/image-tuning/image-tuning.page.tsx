@@ -19,10 +19,10 @@ interface Message {
 export const ImageTuningPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [messages, setMessages] = useState<Message[]>([]);
-    const [originalImageAndMask, setOriginalImageAndMask] = useState({
-        original: undefined as string | undefined,
-        mask: undefined as string | undefined,
-    });
+	const [originalImageAndMask, setOriginalImageAndMask] = useState({
+		original: undefined as string | undefined,
+		mask: undefined as string | undefined,
+	});
 
 	const handleVariation = async () => {
 		setIsLoading(true);
@@ -77,23 +77,23 @@ export const ImageTuningPage = () => {
 
 	return (
 		<>
-            {originalImageAndMask?.original && (
-            	<div className={'fixed flex flex-col items-center top-10 right-10 z-10 fade-in'}>
-            		<span>Editing</span>
-            		<img
-            			className={'border rounded-xl w-36 h-36 object-cover'}
-            			src={originalImageAndMask.original}
-            			alt="Original Image"
-            		/>
-            		<button
-            			type={'button'}
-            			className={'btn-primary mt-2'}
-            			onClick={handleVariation}
-            		>
-            			Generate variation
-            		</button>
-            	</div>
-            )}
+			{originalImageAndMask?.original && (
+				<div className={'fixed flex flex-col items-center top-10 right-10 z-10 fade-in'}>
+					<span>Editing</span>
+					<img
+						className={'border rounded-xl w-36 h-36 object-cover'}
+						src={originalImageAndMask.original}
+						alt="Original Image"
+					/>
+					<button
+						type={'button'}
+						className={'btn-primary mt-2'}
+						onClick={handleVariation}
+					>
+						Generate variation
+					</button>
+				</div>
+			)}
 			<div className="chat-container">
 				<div className="chat-messages">
 					<div className="grid grid-cols-12 gap-y-2">

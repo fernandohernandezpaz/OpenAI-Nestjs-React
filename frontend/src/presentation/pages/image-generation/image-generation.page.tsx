@@ -44,12 +44,11 @@ export const ImageGenerationPage = () => {
 			},
 		]);
 	};
-//
+	//
 	return (
 		<div className="chat-container">
 			<div className="chat-messages">
 				<div className="grid grid-cols-12 gap-y-2">
-
 					<GptMessage text="Hello, please leave a good description of what image do you wish?" />
 
 					{messages.map((message, index) =>
